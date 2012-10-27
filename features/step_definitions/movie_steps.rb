@@ -15,7 +15,8 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.content  is the entire content of the page as a string.
-  flunk "Unimplemented"
+  #flunk "Unimplemented"
+  assert (page.body.index(e1) < page.body.index(e2))
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -54,7 +55,6 @@ end
 Then /^I should see no movie$/ do
   movies = Movie.all
   movies.each do |movie|
-    p movie[:title]
     step %Q{I should not see "#{movie[:title]}"}
   end
 end
@@ -64,5 +64,27 @@ Then /^I should see all of the movies$/ do
   movies.each do |movie|
     step %Q{I should see "#{movie[:title]}"}
   end
+end
+
+Then /^Movies should be sorted alphabetically$/ do
+  movies = Movie.order("title")
+  movies2 = movies.map do |x| x end
+  movies.each do |x|
+    movies2.slice!(0)
+    movies2.each do |y|
+        step %Q{I should see "#{x[:title]}" before "#{y[:title]}"}
+    end
+  end      
+end
+
+Then /^Movies should be sorted by release date$/ do
+  movies = Movie.order("release_date")
+  movies2 = movies.map do |x| x end
+  movies.each do |x|
+    movies2.slice!(0)
+    movies2.each do |y|
+        step %Q{I should see "#{x[:release_date]}" before "#{y[:release_date]}"}
+    end
+  end  
 end
 

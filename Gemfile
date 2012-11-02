@@ -12,6 +12,8 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
+  gem 'rspec-rails'
+  gem 'ZenTest'
 end
 group :test do
   gem 'cucumber-rails'
@@ -40,3 +42,6 @@ gem 'jquery-rails'
 
 # To use debugger
 gem 'haml'
+
+#The ruby tmdb gem
+gem 'ruby-tmdb'
